@@ -8,3 +8,22 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
+model Form {
+  id Int @id @default(autoincrement())
+  ownerId String
+  createdAt DateTime @default(now())
+  published Boolean @default(false)
+  content Json
+  submissions Int @default(0)
+  shareUrl String @default(uuid())
+  Formsubmissions Submissions[]
+}
+
+
+model Submissions{
+  id Int @id @default(autoincrement())
+  formId Int
+  form Form @relation(fields: [formId], references: [id])
+  createdAt DateTime @default(now())
+  content Json
+}
